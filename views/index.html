@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script src="js/3rd/timeago.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <script src="js/chat.js"></script>
+</head>
+
+<body>
+    <div class="chat_window">
+        <div class="top_menu">
+            <div class="buttons">
+                <div id="btnLogout" class="button cloze" title="Logout"></div>
+                <!-- <div class="button minimize" title="minimize"></div> -->
+                <div id="whoisonline" class="button maximize" title="Who is online"></div>
+                <div id="btnSettings" class="button settigs" title="Settigs"></div>
+                <!-- <div id="btnSupEmoji" class="button emejibtn" title="supported emoji list"></div> -->
+            </div>
+            <div class="title">netcet v0.2</div>
+        </div>
+        <div class="middle">
+            <ul class="messages"></ul>
+        </div>
+        <div class="bottom_wrapper clearfix">
+            <div class="message_input_wrapper">
+                <input class="message_input" placeholder="Type your message here..." />
+                <button type="button" class="btn message_input_icon_set" data-toggle="modal" data-target="#uploadModol">
+                    <span class="glyphicon glyphicon-picture"></span>
+                    <!-- <button type="button" class=" send-image" data-toggle="modal" data-target="#uploadModol">
+                     <span class="fa fa-image"></span> 
+                    </button> -->
+                </button>
+            </div>
+            <div class="filebutton">
+                <!-- <input type="file" id="imagefile" accept="image/*"> -->
+            </div>
+            <div class="send_message">
+                <div class="icon"></div>
+                <div class="text">Send</div>
+            </div>
+        </div>
+    </div>
+    <div class="message_template">
+        <li class="message">
+            <div class="avatar">
+                <span class="username_first_letter"></span>
+            </div>
+            <div class="text_wrapper">
+                <div class="text"></div>
+                <div class="message_time"></div>
+            </div>
+        </li>
+    </div>
+    <div class="message_template_image">
+        <li class="message">
+            <div class="avatar">
+                <span class="username_first_letter"></span>
+            </div>
+            <div class="text_wrapper">
+                <div class="message_image"></div>
+                <div class="text"></div>
+                <div class="message_time"></div>
+            </div>
+        </li>
+    </div>
+    <div class="info_message_template">
+        <li class="message">
+            <div class="text_wrapper">
+                <div class="text"></div>
+                <div class="message_time"></div>
+            </div>
+        </li>
+    </div>
+
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="settings-header">
+                        <div class="modol-header-buttons">
+                            <div type="button" class="button cloze" title="close" data-dismiss="modal"></div>
+                        </div>
+                        <div class="settings-title">Settings</div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="setting-all">
+                        <div class="settigs-single">
+                            <div class="settigs-single-desc">Show Notifications</div>
+                            <div class="settigs-single-value">
+                                <input type="checkbox" id="showNotification" checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
+                            </div>
+                        </div>
+                        <div class="settigs-single">
+                            <div class="settigs-single-desc">Show Image Preview</div>
+                            <div class="settigs-single-value">
+                                <input type="checkbox" id="showImagePreview" checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
+                            </div>
+                        </div>
+                        <!--                         <div class="settigs-single">
+                            <div class="settigs-single-desc">Show Notifications2</div>
+                            <div class="settigs-single-value"><input type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger"></div>
+                        </div>
+                        <div class="settigs-single">
+                            <div class="settigs-single-desc">Show Notifications4</div>
+                            <div class="settigs-single-value"><input type="checkbox"></div>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal modal-fullscreen" id="loginModol" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" id="login-modal-content">
+                <div class="modal-header" id="login-modal-header">
+                    <div class="top_menu">
+                        <div class="title">Welcome to the netcet v0.2</div>
+                    </div>
+                </div>
+                <div class="modal-body" id="login-modal-body">
+                    <div class="row">
+                        <div class="center-block" style="width:315px">
+                            <div class="well">
+                                <form id="loginForm" novalidate="novalidate" onkeypress="return event.keyCode != 13;">
+                                    <div class="form-group">
+                                        <p for="username" class="control-label" style="font-weight: bolder;">Log in to see more</p>
+                                        <input type="text" class="form-control" id="username" name="username" value="" required="" title="Please enter you username"
+                                            placeholder="Enter an username">
+                                        <span class="help-block"></span>
+                                    </div>
+                                    <!--                                     <div class="form-group">
+                                        <label for="password" class="control-label">Password</label>
+                                        <input type="password" class="form-control" id="password" name="password" value="" required="" title="Please enter your password">
+                                        <span class="help-block"></span>
+                                    </div> -->
+                                    <div id="loginErrorMsg" class="alert alert-error hide">Wrong username og password</div>
+                                    <div class="checkbox">
+                                        <!-- <label>
+                                            <input type="checkbox" name="remember" id="remember"> Remember me
+                                        </label> -->
+                                        <!-- <p class="help-block">(if this is a private computer)</p> -->
+                                    </div>
+                                    <button id="btnLogin" type="button" class="btn btn-success btn-block" style="background-color: #2196F3;">Enter</button>
+                                    <!--<a href="/forgot/" class="btn btn-default btn-block">Help to login</a>-->
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="display:none;">
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Login</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="onlineUsersModol" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="settings-header">
+                        <div class="modol-header-buttons">
+                            <div type="button" class="button cloze" title="close" data-dismiss="modal"></div>
+                        </div>
+                        <div class="settings-title">Online NetÇetters</div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div id="onlineUserList">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="main-box no-header clearfix">
+                                    <div class="main-box-body clearfix">
+                                        <div class="table-responsive">
+                                            <table class="table user-list">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            <span>Username</span>
+                                                        </th>
+                                                        <th>
+                                                            <span>Login At</span>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            <span>Status</span>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="onlineUserListTableBody">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exitModol" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="settings-header">
+                        <div class="modol-header-buttons">
+                            <div type="button" class="button cloze" title="close" data-dismiss="modal"></div>
+                        </div>
+                        <div class="settings-title">Logout ?</div>
+                    </div>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button id="btnLogoutConfirm" type="button" class="btn btn-danger" data-dismiss="modal">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="btnSupEmojiModol" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="settings-header">
+                        <div class="modol-header-buttons">
+                            <div type="button" class="button cloze" title="close" data-dismiss="modal"></div>
+                        </div>
+                        <div class="settings-title">Supported Emoji Keys</div>
+                    </div>
+                </div>
+                <div class="modal-body" id="emojiList" style="min-height:240px">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="uploadModol" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="settings-header">
+                        <div class="modol-header-buttons">
+                            <div type="button" class="button cloze" title="close" data-dismiss="modal"></div>
+                        </div>
+                        <div class="settings-title">Send an image</div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a data-toggle="tab" href="#file-exploer-input">From Computer</a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#url-input">From URL</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="file-exploer-input" class="tab-pane fade in active">
+                            <p></p>
+                            <div>
+                                <!-- <p>Click 'Browse' and choose a picture file from your computer.</p> -->
+                                <input type="file" id="imagefile" accept="image/*" style="display:none">
+                                <a class="btn btn-success" value="Browse" style="cursor:pointer" onclick="javascript:$('#imagefile').trigger('click');">Browse</a>
+                            </div>
+                        </div>
+                        <div id="url-input" class="tab-pane fade">
+                            <p></p>
+                            <p>Paste image URL to following input.</p>
+                            <input type="text" class="form-control" id="image-url" placeholder="Enter image url.">
+                        </div>
+                    </div>
+                    <div class="image-preview">
+                        <hr>
+                        <img id="image-preview" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button id="btnSendConfirm" type="button" class="btn btn-danger" data-dismiss="modal" disabled>Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/client.js"></script>
+</body>
+
+</html>

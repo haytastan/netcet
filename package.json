@@ -1,0 +1,29 @@
+{
+    "name": "netcet",
+    "version": "1.0.0",
+    "description": "yet another chat room about 8.80",
+    "main": "app.js",
+    "scripts": {
+        "test": "test",
+        "start": "node index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/agtokty/chat-example"
+    },
+    "keywords": [
+        "netcet",
+        "chat",
+        "8.80",
+        "bilkent",
+        "ogleyemegi"
+    ],
+    "author": "agtokty",
+    "license": "MIT",
+    "dependencies": {
+        "body-parser": "^1.15.2",
+        "cookie-parser": "^1.4.3",
+        "express": "^4.14.0",
+        "socket.io": "2.0.4"
+    }
+}
