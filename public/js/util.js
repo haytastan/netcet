@@ -62,6 +62,11 @@ function detectmob() {
     }
 }
 
+String.prototype.replaceAll = function (search, replacement) {
+    var target = this;
+    return target.split(search).join(replacement);
+};
+
 //source : http://stackoverflow.com/questions/6707476/how-to-find-if-a-text-contains-url-string
 function replaceURLWithHTMLLinks(text) {
     var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
@@ -145,3 +150,32 @@ function hideAddressBar()
 
 window.addEventListener("load", function(){ if(!window.pageYOffset){ hideAddressBar(); } } );
 window.addEventListener("orientationchange", hideAddressBar );
+
+
+var emejiList = [
+    { key: ":D", val: "😁" },
+    { key: ">:)", val: "😈" },
+    { key: " :))", val: "😂" },
+    { key: ":)", val: "😊" },
+    { key: ";)", val: "😜" },
+    { key: ":P", val: "😜" },
+    { key: ":(", val: "😔" },
+    { key: ":/", val: "😕" },
+    { key: ":|", val: "😐" },
+    { key: "<3", val: "💗" },
+    { key: ":*", val: "😘" },
+    { key: ":@", val: "😡" },
+    { key: ":O", val: "😲" },
+    { key: ":?", val: "🤔" },
+    { key: ":B", val: "🤓" },
+    { key: ":S", val: "🤐" },
+    { key: "B)", val: "😎" },
+]
+
+function emejiConverter(message) {
+
+    for (var i = 0; i < emejiList.length; i++) {
+        message = message.replaceAll(emejiList[i].key, emejiList[i].val);
+    }
+    return message;
+}

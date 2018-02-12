@@ -177,39 +177,6 @@ $(function () {
         });
     }
 
-    String.prototype.replaceAll = function (search, replacement) {
-        var target = this;
-        return target.split(search).join(replacement);
-    };
-
-    var emejiList = [
-        { key: ":D", val: "😁" },
-        { key: ">:)", val: "😈" },
-        { key: " :))", val: "😂" },
-        { key: ":)", val: "😊" },
-        { key: ";)", val: "😜" },
-        { key: ":P", val: "😜" },
-        { key: ":(", val: "😔" },
-        { key: ":/", val: "😕" },
-        { key: ":|", val: "😐" },
-        { key: "<3", val: "💗" },
-        { key: ":*", val: "😘" },
-        { key: ":@", val: "😡" },
-        { key: ":O", val: "😲" },
-        { key: ":?", val: "🤔" },
-        { key: ":B", val: "🤓" },
-        { key: ":S", val: "🤐" },
-        { key: "B)", val: "😎" },
-    ]
-
-    function emejiConverter(message) {
-
-        for (var i = 0; i < emejiList.length; i++) {
-            message = message.replaceAll(emejiList[i].key, emejiList[i].val);
-        }
-        return message;
-    }
-
     function toggleTitle() {
         if (document.title == Settings.title)
             document.title = Settings.newMessageAlert;
@@ -247,8 +214,6 @@ $(function () {
         //$("#login-modal-body").height($(window).height() );
     }
 
-
-
     socket.disconnect();
 
     window.onresize = function (event) {
@@ -267,7 +232,7 @@ $(function () {
     }
 
     window.onbeforeunload = function () {
-        socket.emit('disconnected', userInput);
+        socket.emit('disconnected', { reason: "closed browser" });
     }
 
     var cusername = getCookie(COOKIE_NAME_USERNAME, null);
@@ -288,13 +253,15 @@ $(function () {
             }
         }
 
-        $("#username").keyup(function (e) {
+        $('body').on("keyup",'#username', function(e){
             if (e.which === 13) {
                 enterLogin();
             }
         });
 
-        $("body").on("click", "#btnLogin", enterLogin);
+        $('body').on("click", "#btnLogin", function(){
+            enterLogin();
+        });
 
     } else {
         userInput = cusername;
@@ -316,7 +283,6 @@ $(function () {
     });
 
     $("#btnSupEmoji").on("click", function () {
-        $("#emojiList").html("");
         var html = "";
         for (var i = 0; i < emejiList.length; i++) {
             html = html + "<div class='col-md-2 col-xs-4 emojibox' >" + emejiList[i].val + " - " + emejiList[i].key + "</div>";
@@ -325,9 +291,8 @@ $(function () {
         $('#btnSupEmojiModol').modal('show');
     });
 
-
     $("#btnLogoutConfirm").on("click", function () {
-        socket.emit('disconnected', userInput);
+        socket.emit('disconnected', { reason: "logout" });
         socket.disconnect();
         deleteCookie(COOKIE_NAME_USERNAME);
         deleteCookie(COOKIE_SHOW_NOTIFICATION);
@@ -342,7 +307,6 @@ $(function () {
 
     });
 
-
     $('#showNotification').change(function () {
         console.log($(this).prop('checked'));
         Settings.showNotifications = $(this).prop('checked');
@@ -350,7 +314,6 @@ $(function () {
     });
 
     resizeMessages();
-
 
     /*file upload*/
     $('#imagefile').bind('change', function (e) {
@@ -367,12 +330,12 @@ $(function () {
     });
 
     $('#image-url').bind('change', function (e) {
-         
-        if(e.target.value && checkURL(e.target.value)){
+
+        if (e.target.value && checkURL(e.target.value)) {
             $("#btnSendConfirm").prop('disabled', false);
             $("#image-preview").attr('src', e.target.value);
         }
-         
+
     });
 
     $("#btnSendConfirm").on("click", function () {
@@ -381,7 +344,6 @@ $(function () {
             user: userInput,
             msg: "",
         };
-
 
         var image_src = $('#image-preview').attr('src');
 
@@ -397,16 +359,6 @@ $(function () {
             $("#btnSendConfirm").prop('disabled', true);
 
         }
-        //  else if ($('#image-url').val()) {
-        //     var isValidUrl = checkURL($('#image-url').val())
-        //     if (isValidUrl) {
-        //         message.imageUrl = $('#image-url').val();
-        //         message.msg = $('#image-url').val();
-        //         socket.emit('chat', message);
-        //         $('#image-url').val('');
-        //         $('#image-preview').attr('src','')
-        //     }
-        // }
 
         $("#uploadModol").modal("hide")
         //TODO - yükleniyor spini

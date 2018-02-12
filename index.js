@@ -30,29 +30,37 @@ app.use(express.static(path.join(__dirname, 'public')));
 io.on('connection', function (socket) {
     socket.on('chat', function (msg) {
         msg.date = getDate();
+        msg.username = socket.username;
+
         io.emit('chat', msg);
+
+        console.log(socket.username + " > " + JSON.stringify(msg));
     });
+
     socket.on('connected', function (username) {
-        if (!database.isExist("username", username)) {
+
+        socket.username = username;
+
+        console.log(socket.username + " connected")
+
+        if (!database.isExist("username", socket.username)) {
             var d = new Date();
-            database.add({ username: username, connectedAt: d.getTime() });
-            io.emit('connected', username);
+            database.add({ username: socket.username, connectedAt: d.getTime() });
+            io.emit('connected', socket.username);
         } else {
             io.emit('error', { "type": "invalidusername", "message": "Invalid username : " + username });
         }
     });
-    socket.on('disconnected', function (username) {
-        if (database.remove("username", username)) {
-            io.emit('disconnected', username);
-            console.log(username + " disconnected");
+
+    socket.on('disconnected', function (data) {
+        if (socket.username && database.remove("username", socket.username)) {
+
+            io.emit('disconnected', socket.username);
+            console.log(socket.username + " disconnected, data : " + JSON.stringify(data));
+
         }
     });
 
-    socket.on('image', function (msg) {
-        // console.log(msg);
-        // msg.date = getDate();
-        socket.broadcast.emit('image', msg);
-    });
 });
 
 
