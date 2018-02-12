@@ -22,7 +22,7 @@ Message = function (arg) {
                 $message.find('.message_image').html('<img src="' + this.image + '"/>')
             }
 
-            $message.find('.message_time').html(_this.date);
+            $message.find('.message_time').html(getCurrentTime(null, false));
             $message.addClass(_this.message_side).find('.text').html(_this.text);
             var letter = "...";
             if (this.user) {
