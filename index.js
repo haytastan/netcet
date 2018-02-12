@@ -34,14 +34,14 @@ io.on('connection', function (socket) {
 
         io.emit('chat', msg);
 
-        console.log(socket.username + " > " + JSON.stringify(msg.msg));
+        console.log(socket.id + " : " + socket.username + " > " + JSON.stringify(msg.msg));
     });
 
     socket.on('connected', function (username) {
 
         socket.username = username;
 
-        console.log(socket.username + " connected")
+        console.log(socket.id + " : " + socket.username + " connected")
 
         if (!database.isExist("username", socket.username)) {
             var d = new Date();
@@ -56,7 +56,8 @@ io.on('connection', function (socket) {
         if (socket.username && database.remove("username", socket.username)) {
 
             io.emit('disconnected', socket.username);
-            console.log(socket.username + " disconnected, data : " + JSON.stringify(data));
+            
+            console.log(socket.id + " : " + socket.username + " disconnected, data : " + JSON.stringify(data));
 
         }
     });
