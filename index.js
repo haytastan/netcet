@@ -34,7 +34,7 @@ io.on('connection', function (socket) {
 
         io.emit('chat', msg);
 
-        console.log(socket.username + " > " + JSON.stringify(msg));
+        console.log(socket.username + " > " + JSON.stringify(msg.msg));
     });
 
     socket.on('connected', function (username) {
