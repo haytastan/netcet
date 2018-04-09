@@ -6,6 +6,11 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/8.1.0/i18next.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-i18next/1.2.0/jquery-i18next.min.js"></script>
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
@@ -24,7 +29,7 @@
                 <div id="btnSettings" class="button settigs" title="Settigs"></div>
                 <!-- <div id="btnSupEmoji" class="button emejibtn" title="supported emoji list"></div> -->
             </div>
-            <div class="title">netcet v0.2</div>
+            <div class="title" id="chat-app-title" data-i18n="chat-app-title"></div>
         </div>
         <div class="middle">
             <ul class="messages"></ul>
@@ -125,7 +130,7 @@
             <div class="modal-content" id="login-modal-content">
                 <div class="modal-header" id="login-modal-header">
                     <div class="top_menu">
-                        <div class="title">Welcome to the netcet v0.2</div>
+                        <div class="title" id="login-app-title" data-i18n="login-app-title"></div>
                     </div>
                 </div>
                 <div class="modal-body" id="login-modal-body">
@@ -297,6 +302,44 @@
             </div>
         </div>
     </div>
+
+    <script>
+
+        var lang = {
+            "en": {
+                translation: {
+                    "login-app-title": "Welcome to NetCet v0.2",
+                    "chat-app-title": "NetCet v0.2"
+                }
+
+            },
+        }
+
+        $(function () {
+            $.get("/api/i18n", function (data) {
+                lang = data;
+                loadLang()
+            }).fail(function () {
+                console.log("error");
+                loadLang()
+            })
+        })
+
+        function loadLang() {
+            i18next.init({
+                lng: 'en',
+                resources: lang
+            }, function (err, t) {
+                jqueryI18next.init(i18next, $);
+                $('#login-app-title').localize();
+                $('#chat-app-title').localize();
+            });
+
+        }
+
+
+
+    </script>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/util.js"></script>
