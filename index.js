@@ -12,8 +12,7 @@ log4js.configure({
     categories: { default: { appenders: ['netcet'], level: 'all' } }
 });
 
-var logger = log4js.getLogger('netcet');
-
+var netcetLogger = log4js.getLogger('netcet');
 
 var appConfig = require('./appConfig');
 var database = require('./controllers/database');
@@ -36,8 +35,8 @@ if (appConfig.logger && appConfig.logger.enabled == true) {
     })
 
     accessLogStream.on('error', function (err) {
-        logger.error("accessLogStream error!!");
-        logger.error(err);
+        netcetLogger.error("accessLogStream error!!");
+        netcetLogger.error(err);
     });
 
     morgan.token('eventor-user', function (req, res) { return "guest" });
@@ -70,14 +69,14 @@ io.on('connection', function (socket) {
 
         io.emit('chat', msg);
 
-        logger.info(socket.id + " : " + socket.username + " > " + JSON.stringify(msg.msg));
+        netcetLogger.info(socket.id + " : " + socket.username + " > " + JSON.stringify(msg.msg));
     });
 
     socket.on('connected', function (username) {
 
         socket.username = username;
 
-        logger.info(socket.id + " : " + socket.username + " connected")
+        netcetLogger.info(socket.id + " : " + socket.username + " connected")
 
         if (!database.isExist("username", socket.username)) {
             var d = new Date();
@@ -93,7 +92,7 @@ io.on('connection', function (socket) {
 
             io.emit('disconnected', socket.username);
 
-            logger.info(socket.id + " : " + socket.username + " disconnected, data : " + JSON.stringify(data));
+            netcetLogger.info(socket.id + " : " + socket.username + " disconnected, data : " + JSON.stringify(data));
 
         }
     });
@@ -102,7 +101,7 @@ io.on('connection', function (socket) {
 
 const port = process.env.PORT || appConfig.port || 880;
 http.listen(port, function () {
-    logger.info('listening on *:' + port);
+    netcetLogger.info('listening on *:' + port);
 });
 
 

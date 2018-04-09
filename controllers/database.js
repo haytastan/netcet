@@ -1,48 +1,43 @@
-function DB() {
+var USERS_ARRAY = new Array();
 
-    var users = new Array();
-
-    this.add = function(user) {
-        users.push(user);
+var DB = {
+    add: function (user) {
+        USERS_ARRAY.push(user);
         return true;
-    };
-
-    this.remove = function(property, value) {
+    },
+    remove: function (property, value) {
         var newUserList = new Array();
         var found = false;
-        for (var i = 0; i < users.length; i++) {
-            if (users[i][property] == value)
+        for (var i = 0; i < USERS_ARRAY.length; i++) {
+            if (USERS_ARRAY[i][property] == value)
                 found = true;
             else
-                newUserList.push(users[i])
+                newUserList.push(USERS_ARRAY[i])
         }
 
-        if (found) users = newUserList;
+        if (found) USERS_ARRAY = newUserList;
 
         return found;
-    };
-
-    this.isExist = function(property, value) {
-        for (var i = 0; i < users.length; i++) {
-            if (users[i][property] == value)
+    },
+    isExist: function (property, value) {
+        for (var i = 0; i < USERS_ARRAY.length; i++) {
+            if (USERS_ARRAY[i][property] == value)
                 return true;
         }
         return false;
-    };
-
-    this.get = function(property, value) {
+    },
+    get: function (property, value) {
         var newUserList = new Array();
-        for (var i = 0; i < users.length; i++) {
-            if (users[i][property] == value)
-                newUserList.push(users[i])
+        for (var i = 0; i < USERS_ARRAY.length; i++) {
+            if (USERS_ARRAY[i][property] == value)
+                newUserList.push(USERS_ARRAY[i])
         }
         return newUserList;
-    }
-
-    this.getAll = function() {
-        return users;
+    },
+    getAll: function () {
+        return USERS_ARRAY;
     }
 
 }
 
-module.exports = new DB();
+module.exports = DB;
